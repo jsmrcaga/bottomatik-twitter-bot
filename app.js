@@ -35,6 +35,12 @@ function getTimeline(callback){
 				if(tweet.user && tweet.user.followers_count > 1000){
 					follow(tweet.user.id)
 				}
+
+				let vertical = /vertical/gi;
+				if(vertical.test(tweet.text) || vertical.test(tweet.user.screen_name)){
+					return;
+				}
+
 				for(var reg of regex){
 					if(reg.test(tweet.text) && tweet.user.screen_name !== 'bottomatik'){
 						console.log(`Sending for retweet ${tweet.id} from ${tweet.user.screen_name}`);
@@ -81,7 +87,7 @@ function follow(user_id){
 		if(err){
 			return console.error('Error following',err);
 		}
-		console.log('Successful Follow');
+		console.log('Successful Follow', tweets);
 	});
 }
 
